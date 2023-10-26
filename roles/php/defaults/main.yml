@@ -1,0 +1,3 @@
+---
+php_fpm_listener: /run/php/php8.1-fpm.sock
+php_fpm_listen_mode: tcp

@@ -1,0 +1,17 @@
+- name: Create user
+  user:
+    name: "{{ username }}"
+    state: present
+
+- name: Ensure .ssh directory exists.
+  file: 
+    dest: "/home/{{ username }}/.ssh"
+    mode: 0700 
+    owner: user1
+    state: directory
+    
+- name: Set authorized key taken from file
+  authorized_key:
+    user: "{{ username }}"
+    state: present
+    key: "{{ lookup('file', '/etc/ansible/files/id_rsa.pub') }}"

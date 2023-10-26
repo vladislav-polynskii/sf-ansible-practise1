@@ -1,0 +1,23 @@
+server {
+       listen {{ http_port }};
+       root {{ document_root }};
+       index index.php index.html index.htm index.nginx-debian.html;
+       server_name {{ http_host }};
+
+       location / {
+               try_files $uri $uri/ =404;
+       }
+
+       location ~ \.php$ {
+               include snippets/fastcgi-php.conf;
+               {% if php_fpm_listen_mode == "unix" %}
+               fastcgi_pass unix:{{ nginx_php_fpm_listener }};
+               {% elif php_fpm_listen_mode == "tcp" %}
+               fastcgi_pass {{ nginx_php_fpm_listener }};
+               {% endif %}
+       }
+
+       location ~ /\.ht {
+               deny all;
+       }
+}

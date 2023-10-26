@@ -1,0 +1,9 @@
+[app:children]
+nginx
+php
+
+[nginx]
+192.168.62.130
+
+[php]
+192.168.62.132

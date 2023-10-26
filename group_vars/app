@@ -1,0 +1,5 @@
+username: user1
+php_fpm_listen_mode: tcp
+php_fpm_listener: 0.0.0.0:9000
+nginx_php_fpm_listener: 192.168.62.132:9000
+document_root: /var/www/html/

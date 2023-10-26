@@ -1,0 +1,40 @@
+---
+- name: Install required packages
+  apt:
+    pkg:
+      - nginx
+    state: latest
+    update_cache: true
+
+- name: Make sure nginx is running
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+
+- name: Make sure document root is exist
+  file:
+    dest: "{{ document_root}}"
+    state: directory
+
+- name: Set configuration file
+  template:
+    src: nginx.conf.j2
+    dest: "/etc/nginx/sites-available/{{ http_conf }}.conf"
+
+- name: Remove default site
+  file:
+    path: "/etc/nginx/sites-enabled/default"
+    state: absent
+
+- name: Enable new site
+  file:
+    src: "/etc/nginx/sites-available/{{ http_conf }}.conf"
+    dest: "/etc/nginx/sites-enabled/{{ http_conf }}.conf"
+    state: link
+  notify: Reload Nginx
+
+- name: Configure php info page
+  template:
+    src: "info.php.j2"
+    dest: "{{ document_root }}/index.php"

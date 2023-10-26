@@ -1,0 +1,7 @@
+---
+http_conf: ansible-default
+http_host: _
+http_port: 80
+document_root: /opt/nginx/ansible
+php_fpm_listen_mode: unix
+nginx_php_fpm_listener: /run/php/php8.1-fpm.sock

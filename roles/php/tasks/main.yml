@@ -1,0 +1,19 @@
+---
+- name: Install package
+  apt:
+    name: php8.1-fpm
+    state: latest
+
+- name: Set php-fpm listener
+  lineinfile:
+    path: /etc/php/8.1/fpm/pool.d/www.conf
+    state: present
+    regexp: '^listen = '
+    line: "listen = {{ php_fpm_listener }}"
+  notify: restart php-fpm
+
+- name: Make sure php-fpm is running
+  service:
+    name: php8.1-fpm
+    state: started
+    enabled: yes
